@@ -32,6 +32,14 @@ public class Staff implements Serializable {
         this.workingType = workingType;
     }
 
+    public Staff(int id, String name, boolean status, String workingType, Set<Role> roleSet) {
+        this.id = id;
+        this.name = name;
+        this.status = status;
+        this.workingType = workingType;
+        this.roleSet = roleSet;
+    }
+
     public int getId() {
         return id;
     }
@@ -72,6 +80,14 @@ public class Staff implements Serializable {
         this.status = status;
     }
 
+    public Set<Role> getRoleSet() {
+        return roleSet;
+    }
+
+    public void setRoleSet(Set<Role> roleSet) {
+        this.roleSet = roleSet;
+    }
+
     public String getWorkingType() {
         return workingType;
     }
@@ -90,7 +106,7 @@ public class Staff implements Serializable {
                 ", status=" + status +
                 ", workingType='" + workingType + '\'' +
                 ", roleSet=" + roleSet +
-                '}';
+                "}\n";
     }
 
 //        if (isStatus()) {

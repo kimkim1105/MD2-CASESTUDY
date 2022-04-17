@@ -1,16 +1,16 @@
 package service.Staff;
 
 import config.ConfigReadAndWriteFile;
+import model.Role;
 import model.Staff;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class StaffServiceIMPL implements IstaffService {
-    public static String path = "D:\\java\\GIT\\MODULE 2\\HUMAN\\src\\data\\staffList.csv";
-//    public static String path2 = "D:\\java\\GIT\\MODULE 2\\HUMAN\\src\\data\\quitjob.csv";
+    public static String path = "D:\\java\\GIT\\MODULE 2\\HUMAN - Copy\\src\\data\\staffList.csv";
     public static List<Staff> staffList = new  ConfigReadAndWriteFile<Staff>().readFromFile(path);
-//    public static List<Staff> listQuitJob = new  ConfigReadAndWriteFile<Staff>().readFromFile(path2);
 
     @Override
     public List<Staff> findAll() {
@@ -20,11 +20,6 @@ public class StaffServiceIMPL implements IstaffService {
         staffList.add(staff);
         save();
     }
-//    @Override
-//    public void addStaff(Staff staff) {
-//        staffList.add(staff);
-//        save();
-//    }
 
     @Override
     public void save() {
@@ -40,7 +35,64 @@ public class StaffServiceIMPL implements IstaffService {
         }
         return listSearchByName;
     }
-
+    public boolean searchByUsername(String username) {
+        for (int i = 0; i < staffList.size(); i++) {
+            if (staffList.get(i).getUsername().equals(username)){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean searchPasswordByUsername(String username,String password) {
+        for (int i = 0; i < staffList.size(); i++) {
+            if (staffList.get(i).getUsername().equals(username)){
+                if (staffList.get(i).getPassword().equals(password)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public Set<Role> searchRoleByUsername(String username) {
+        for (int i = 0; i < staffList.size(); i++) {
+            if (staffList.get(i).getUsername().equals(username)){
+                return staffList.get(i).getRoleSet();
+            }
+        }
+        return null;
+    }
+    public String searchNameByUsername(String username) {
+        for (int i = 0; i < staffList.size(); i++) {
+            if (staffList.get(i).getUsername().equals(username)){
+                return staffList.get(i).getName();
+            }
+        }
+        return null;
+    }
+    public int searchIdByUsername(String username) {
+        for (int i = 0; i < staffList.size(); i++) {
+            if (staffList.get(i).getUsername().equals(username)){
+                return staffList.get(i).getId();
+            }
+        }
+        return -1;
+    }
+    public boolean searchStatusByUsername(String username) {
+        for (int i = 0; i < staffList.size(); i++) {
+            if (staffList.get(i).getUsername().equals(username)){
+                return staffList.get(i).isStatus();
+            }
+        }
+        return false;
+    }
+    public String searchWorkingTypeByUsername(String username) {
+        for (int i = 0; i < staffList.size(); i++) {
+            if (staffList.get(i).getUsername().equals(username)){
+                return staffList.get(i).getWorkingType();
+            }
+        }
+        return null;
+    }
     public List<Staff> searchByStatus(boolean status) {
         List<Staff> listSearchByStatus = new ArrayList<>();
         for (int i = 0; i < staffList.size(); i++) {
@@ -76,11 +128,12 @@ public class StaffServiceIMPL implements IstaffService {
         }
         return list;
     }
-    public void editStaff(int id,String name,String workingType){
+    public void editStaff(int id,String name,String workingType,Set<Role> roleSet){
         for (int i = 0; i < staffList.size(); i++) {
             if (id == staffList.get(i).getId()){
                 staffList.get(i).setName(name);
                 staffList.get(i).setWorkingType(workingType);
+                staffList.get(i).setRoleSet(roleSet);
                 System.out.println("Ban vua chinh sua nhan vien "+staffList.get(i));
             }
         }
