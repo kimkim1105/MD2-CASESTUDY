@@ -1,43 +1,66 @@
 package view;
 
+import model.Role;
+import model.RoleName;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
     Scanner scanner = new Scanner(System.in);
     StaffView staffView = new StaffView();
+    Role role = new Role();
+
     public Menu() {
+        List<Role> roleList = new ArrayList<>(LoginView.user.get(0).getRoleSet());
+//        checkLogin(roleList);
         System.out.println("==========Menu==========");
-        System.out.println("1. Thêm Nhân viên");
-        System.out.println("2. Tìm kiếm Nhân viên");
-        System.out.println("3. Kiểm tra trạng thái Nhân viên");
-        System.out.println("4. Sửa thông tin Nhân viên");
-        System.out.println("5. Thay đổi trạng thái Nhân viên");
-        System.out.println("6. Thông tin tài khoản");
-        System.out.println("7. Công - lương");
-        System.out.println("8. Đăng xuất");
+        System.out.println("1. Thao tac voi nhan vien");
+        System.out.println("2. Hien thi danh sach nhan viên");
+        System.out.println("3. Thông tin tài khoản");
+        System.out.println("4. Công - lương");
+        System.out.println("5. Đăng xuất");
         int chooseMenu = Integer.parseInt(scanner.nextLine());
         switch (chooseMenu) {
             case 1:
-                staffView.createStaff();
-                break;
+                if (checkLogin(roleList) > 1) {
+                    staffView.operation();
+                    break;
+                } else {
+                    System.out.println("Khong co quyen truy cap");
+                    new Menu();
+                }
             case 2:
-                staffView.searchStaff();
+                if (checkLogin(roleList) > 1) {
+                    staffView.searchStaff();
+                    break;
+                } else {
+                    System.out.println("Khong co quyen truy cap");
+                    new Menu();
+                }
                 break;
             case 3:
-                staffView.searchStatus();
-                break;
-            case 4:
-                staffView.editStaffById();
-                break;
-            case 5:
-                staffView.changeStatusById();
-                break;
-            case 6:
                 staffView.showUserInfo();
                 break;
-            case 8:
+            case 4:
+                staffView.payroll();
+                break;
+            case 5:
                 new Main();
                 break;
         }
+    }
+
+    public static int checkLogin(List<Role> roleList) {
+        int check = 0;
+        if (roleList.get(0).getName() == RoleName.STAFF) {
+            check = 1;
+        } else if (roleList.get(0).getName() == RoleName.ADMIN) {
+            check = 2;
+        } else {
+            check = 3;
+        }
+        return check;
     }
 }

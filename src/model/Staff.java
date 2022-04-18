@@ -11,6 +11,11 @@ public class Staff implements Serializable {
     private boolean status;
     private String workingType;
     private Set<Role> roleSet;
+    private int daysOfWorking;
+    private int dayOff;
+    private double basicSalary;
+    private double totalSalary;
+    private int workingDayInMonth;
 
     public Staff() {
     }
@@ -25,11 +30,9 @@ public class Staff implements Serializable {
         this.roleSet = roleSet;
     }
 
-    public Staff(int id, String name, boolean status, String workingType) {
+    public Staff(int id, int dayOff) {
         this.id = id;
-        this.name = name;
-        this.status = status;
-        this.workingType = workingType;
+        this.dayOff = dayOff;
     }
 
     public Staff(int id, String name, boolean status, String workingType, Set<Role> roleSet) {
@@ -96,6 +99,46 @@ public class Staff implements Serializable {
         this.workingType = workingType;
     }
 
+    public int getDaysOfWorking() {
+        return daysOfWorking;
+    }
+
+    public void setDaysOfWorking(int daysOfWorking) {
+        this.daysOfWorking = daysOfWorking;
+    }
+
+    public int getDayOff() {
+        return dayOff;
+    }
+
+    public void setDayOff(int dayOff) {
+        this.dayOff = dayOff;
+    }
+
+    public double getBasicSalary() {
+        return basicSalary;
+    }
+
+    public void setBasicSalary(double basicSalary) {
+        this.basicSalary = basicSalary;
+    }
+
+    public double getTotalSalary() {
+        return totalSalary;
+    }
+
+    public void setTotalSalary(double totalSalary) {
+        this.totalSalary = totalSalary;
+    }
+
+    public int getWorkingDayInMonth() {
+        return workingDayInMonth;
+    }
+
+    public void setWorkingDayInMonth(int workingDayInMonth) {
+        this.workingDayInMonth = workingDayInMonth;
+    }
+
     @Override
     public String toString() {
         return "Staff{" +
@@ -108,8 +151,21 @@ public class Staff implements Serializable {
                 ", roleSet=" + roleSet +
                 "}\n";
     }
+public String printSalary(){
+    String salary = "id=" + id +
+                ", name='" + name + '\'' +
+                ", status=" + status +
+                ", workingType='" + workingType + '\'' +
+                ", roleSet=" + roleSet +
+                ", DaysOfWork"+daysOfWorking+
+                ", DayOff"+dayOff+
+                ", basicSalary"+basicSalary+
+                ", totalSalary"+totalSalary+
+                ", wokingDayInMonth"+workingDayInMonth;
+        return salary;
+}
 
-//        if (isStatus()) {
+    //        if (isStatus()) {
 //            return String.format("\t|%-3s | %-10s | %-15s | %-10s |%n", id, name, "Dang lam viec", workingType);
 //        }
 //        return String.format("\t|%-3s | %-10s | %-15s | %-10s |%n", id, name, "Da nghi viec", workingType);

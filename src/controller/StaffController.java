@@ -71,4 +71,10 @@ public class StaffController {
     public void changeStatusById(int id, boolean status){
         staffServiceIMPL.changeStatus(id,status);
     }
+    public void takeSalary(int workingDayInMonth,Map<Integer,Integer> staffOff){
+        staffServiceIMPL.payroll(workingDayInMonth,staffOff);
+    }
+    public void getSalaryById(int id, List<Staff> staffList){
+        staffServiceIMPL.getSalaryById(id,staffList);
+    }
 }

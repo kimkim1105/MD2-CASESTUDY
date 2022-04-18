@@ -2,10 +2,14 @@ package service.Staff;
 
 import config.ConfigReadAndWriteFile;
 import model.Role;
+import model.RoleName;
 import model.Staff;
+import service.user.RoleServiceIMPL;
+import view.Main;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class StaffServiceIMPL implements IstaffService {
@@ -158,4 +162,58 @@ public class StaffServiceIMPL implements IstaffService {
         }
         return false;
     }
+    public void changeWorkingDayInMonth(int workingDayInMonth){
+        for (int i = 0; i < staffList.size(); i++) {
+            staffList.get(i).setWorkingDayInMonth(workingDayInMonth);
+        }
+        save();
+    }
+    public void changDayOff(Map<Integer,Integer> staffOff){
+        for (int i = 0; i < staffList.size(); i++) {
+            for (int j = 0; j < staffOff.size(); j++) {
+               if (staffOff.containsKey(staffList.get(i).getId())){
+                   staffList.get(i).setDayOff(staffOff.get(staffList.get(i).getId()));
+               }
+            }
+        }
+        save();
+    }
+    public void payroll(int workingDayInMonth, Map<Integer,Integer> staffOff){
+        RoleServiceIMPL roleServiceIMPL = new RoleServiceIMPL();
+        changeWorkingDayInMonth(workingDayInMonth);
+        changDayOff(staffOff);
+        for (int i = 0; i < staffList.size(); i++) {
+            if (staffList.get(i).isStatus()){
+                List<Role> roleList = new ArrayList<>(staffList.get(i).getRoleSet());
+                staffList.get(i).setDaysOfWorking(staffList.get(i).getWorkingDayInMonth()-staffList.get(i).getDayOff());
+//            System.out.println(roleList);
+                if (staffList.get(i).getWorkingType().equals("fulltime")){
+                    if (roleList.get(0).getName()==RoleName.STAFF){
+                        staffList.get(i).setBasicSalary(10);
+                        staffList.get(i).setTotalSalary((staffList.get(i).getBasicSalary()/staffList.get(i).getWorkingDayInMonth())*staffList.get(i).getDaysOfWorking());
+                    }
+                    if (roleList.get(0).getName()==RoleName.ADMIN){
+                        staffList.get(i).setBasicSalary(13);
+                        staffList.get(i).setTotalSalary((staffList.get(i).getBasicSalary()/staffList.get(i).getWorkingDayInMonth())*staffList.get(i).getDaysOfWorking());
+                    }
+                    if (roleList.get(0).getName()==RoleName.MANAGER){
+                        staffList.get(i).setBasicSalary(23);
+                        staffList.get(i).setTotalSalary((staffList.get(i).getBasicSalary()/staffList.get(i).getWorkingDayInMonth())*staffList.get(i).getDaysOfWorking());
+                    }
+                }else {
+                    staffList.get(i).setBasicSalary(5);
+                    staffList.get(i).setTotalSalary((staffList.get(i).getBasicSalary()/staffList.get(i).getWorkingDayInMonth())*staffList.get(i).getDaysOfWorking());
+                }
+            }
+        }
+        save();
+    }
+    public void getSalaryById(int id, List<Staff> staffList){
+        for (int i = 0; i < staffList.size(); i++) {
+            if (id==staffList.get(i).getId()){
+                System.out.println(staffList.get(i).printSalary());
+            }
+        }
+    }
+
 }
