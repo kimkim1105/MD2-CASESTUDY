@@ -21,8 +21,8 @@ public class StaffController {
         }else {
             id = staffServiceIMPL.staffList.get(staffServiceIMPL.staffList.size()-1).getId()+1;
         }
-        System.out.println("Nhap hinh thuc lam viec");
-        String workingType = scanner.nextLine();
+//        System.out.println("Nhap hinh thuc lam viec");
+//        String workingType = scanner.nextLine();
         Set<String> stringSetRole = signUpDTO.getStringSetRole();
 //        System.out.println(stringSetRole);
         Set<Role> roleSet = new HashSet<>();
@@ -42,7 +42,7 @@ public class StaffController {
                     break;
             }
         });
-        Staff staff = new Staff(id,signUpDTO.getName(),signUpDTO.getUsername(),signUpDTO.getPassword(),true,workingType,roleSet);
+        Staff staff = new Staff(id,signUpDTO.getName(),signUpDTO.getUsername(),signUpDTO.getPassword(),true,"fulltime",roleSet);
 //        System.out.println(roleSet);
         staffServiceIMPL.add(staff);
     }
@@ -55,6 +55,9 @@ public class StaffController {
     }
     public List<Staff> searchStaffByName(String name){
         return staffServiceIMPL.searchByName(name);
+    }
+    public Staff searchStaffById (int id){
+        return staffServiceIMPL.searchById(id);
     }
     public List<Staff> searchStaffByWorkingType(String workingType){
         return staffServiceIMPL.searchByWorkingType(workingType);
@@ -72,6 +75,7 @@ public class StaffController {
         staffServiceIMPL.changeStatus(id,status);
     }
     public void takeSalary(int workingDayInMonth,Map<Integer,Integer> staffOff){
+        System.out.println("check=====");
         staffServiceIMPL.payroll(workingDayInMonth,staffOff);
     }
     public void getSalaryById(int id, List<Staff> staffList){

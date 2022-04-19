@@ -23,7 +23,7 @@ public class LoginView {
             username = scanner.nextLine();
             checkUsername = staffServiceIMPL.searchByUsername(username);
             if (!checkUsername){
-                System.out.println("Username khong dung");
+                System.out.println("Username khong ton tai, nhap lai hoac dang ki");
             }else {
                 break;
             }
@@ -35,7 +35,7 @@ public class LoginView {
             password = scanner.nextLine();
             checkPassword = staffServiceIMPL.searchPasswordByUsername(username,password);
             if (!checkPassword){
-                System.out.println("Username khong dung");
+                System.out.println("Password khong dung, nhap lai");
             }else {
                 break;
             }

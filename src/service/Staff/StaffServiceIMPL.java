@@ -39,6 +39,14 @@ public class StaffServiceIMPL implements IstaffService {
         }
         return listSearchByName;
     }
+    public Staff searchById(int id) {
+        for (int i = 0; i < staffList.size(); i++) {
+            if (staffList.get(i).getId()==id){
+                return staffList.get(i);
+            }
+        }
+        return null;
+    }
     public boolean searchByUsername(String username) {
         for (int i = 0; i < staffList.size(); i++) {
             if (staffList.get(i).getUsername().equals(username)){

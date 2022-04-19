@@ -157,11 +157,11 @@ public String printSalary(){
                 ", status=" + status +
                 ", workingType='" + workingType + '\'' +
                 ", roleSet=" + roleSet +
-                ", DaysOfWork"+daysOfWorking+
-                ", DayOff"+dayOff+
-                ", basicSalary"+basicSalary+
-                ", totalSalary"+totalSalary+
-                ", wokingDayInMonth"+workingDayInMonth;
+                ", DaysOfWork="+daysOfWorking+
+                ", DayOff="+dayOff+
+                ", basicSalary="+basicSalary+
+                ", totalSalary="+totalSalary+
+                ", wokingDayInMonth="+workingDayInMonth;
         return salary;
 }
 

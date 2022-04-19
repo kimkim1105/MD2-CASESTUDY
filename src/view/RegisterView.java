@@ -2,6 +2,7 @@ package view;
 
 import controller.StaffController;
 import dto.SignUpDTO;
+import model.Validate;
 import service.Staff.StaffServiceIMPL;
 import service.user.RoleServiceIMPL;
 
@@ -15,30 +16,33 @@ public class RegisterView {
     Scanner scanner = new Scanner(System.in);
     StaffController staffController = new StaffController();
     StaffServiceIMPL staffServiceIMPL = new StaffServiceIMPL();
+
     public RegisterView(){
         roleServiceIMPL.findAll();
         System.out.println("Nhap ten:");
-        String name = scanner.nextLine();
-        System.out.println("Nhap username:");
+        String name = scanner.nextLine() ;
+        System.out.println("Nhap username (chữ thường và số viết liền không dấu, ít nhất 6 ký tự:");
         String username;
         boolean checkUsername;
         while (true){
             username = scanner.nextLine();
-            checkUsername = Pattern.matches("[a-z0-9_-]{6,}",username);
+            checkUsername = Validate.isvalid(username,Validate.USERNAME_REGEX);
+//            checkUsername = Pattern.matches("^[a-z0-9]{6,}$",username);
             if (!checkUsername){
-                System.err.println("Sai username, nhap lai");
+                System.err.println("Sai cau truc username, nhap lai");
             }else if (staffServiceIMPL.existedByUsername(username)){
                 System.err.println("Username da ton tai, nhap lai");
             }else {
                 break;
             }
         }
-        System.out.println("Nhap password, ky tu dau la chu hoa, do dai 4 ky tu");
+        System.out.println("Nhap password, ky tu dau la chu hoa, toi thieu 6 ky tu");
         String password;
         boolean checkPassword;
         while (true){
             password = scanner.nextLine();
-            checkPassword = Pattern.matches("[A-Z]{1}[a-z0-9]{5,}",password);
+            checkPassword = Validate.isvalid(password,Validate.PASSWORD);
+//            checkPassword = Pattern.matches("^[A-Z]{1}[a-zA-Z0-9]{5,}$",password);
             if (!checkPassword){
                 System.out.println("Nhap lai password");
             }else {
