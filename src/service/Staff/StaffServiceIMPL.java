@@ -186,6 +186,17 @@ public class StaffServiceIMPL implements IstaffService {
         }
         save();
     }
+    public void changDayOffById(int id, int dayOff){
+        for (int i = 0; i < staffList.size(); i++) {
+                if (staffList.get(i).getId()==id){
+                    staffList.get(i).setDayOff(dayOff);
+                    staffList.get(i).setDaysOfWorking(staffList.get(i).getWorkingDayInMonth()-staffList.get(i).getDayOff());
+                    staffList.get(i).setTotalSalary((staffList.get(i).getBasicSalary()/staffList.get(i).getWorkingDayInMonth())*staffList.get(i).getDaysOfWorking());
+                    System.out.println("Ban vua thay doi so ngay nghi cua nhan vien: "+staffList.get(i).printSalary());
+                }
+        }
+        save();
+    }
     public void payroll(int workingDayInMonth, Map<Integer,Integer> staffOff){
         RoleServiceIMPL roleServiceIMPL = new RoleServiceIMPL();
         changeWorkingDayInMonth(workingDayInMonth);
@@ -223,5 +234,4 @@ public class StaffServiceIMPL implements IstaffService {
             }
         }
     }
-
 }

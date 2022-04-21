@@ -75,8 +75,10 @@ public class StaffController {
         staffServiceIMPL.changeStatus(id,status);
     }
     public void takeSalary(int workingDayInMonth,Map<Integer,Integer> staffOff){
-        System.out.println("check=====");
         staffServiceIMPL.payroll(workingDayInMonth,staffOff);
+    }
+    public void changeDayOffById(int id, int dayOff){
+        staffServiceIMPL.changDayOffById(id,dayOff);
     }
     public void getSalaryById(int id, List<Staff> staffList){
         staffServiceIMPL.getSalaryById(id,staffList);

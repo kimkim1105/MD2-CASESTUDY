@@ -15,6 +15,10 @@ public class LoginView {
     public static String path = "D:\\java\\GIT\\MODULE 2\\HUMAN - Copy\\src\\data\\login.csv";
     public static List<Staff> user = new ConfigReadAndWriteFile<Staff>().readFromFile(path);
     public LoginView(){
+        if (staffServiceIMPL.staffList.size()==0){
+            System.out.println("Chua co tai khoan de dang nhap");
+            new Main();
+        }
         System.out.println("===========LOGIN===========");
         System.out.println("Nhap username");
         String username="";

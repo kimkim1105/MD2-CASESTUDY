@@ -27,16 +27,15 @@ public class StaffView {
                 "\n2. Sua thong tin nhan vien" +
                 "\n3. Thay doi trang thai nhan vien" +
                 "\n4. Menu");
-        int operate = Integer.parseInt(scanner.nextLine());
-        while (operate >= 1 && operate <= 4) {
+        String operate = scanner.nextLine();
             switch (operate) {
-                case 1:
+                case "1":
                     createStaff();
                     break;
-                case 2:
+                case "2":
                     editStaffById();
                     break;
-                case 3:
+                case "3":
                     if (Menu.checkLogin(roleList)==3){
                         changeStatusById();
                     }else {
@@ -44,12 +43,13 @@ public class StaffView {
                         operation();
                     }
                     break;
-                case 4:
+                case "4":
                     new Menu();
                     break;
-            }
+                default:
+                    operation();
+                    break;
         }
-        operation();
     }
 
     public void createStaff() {
@@ -129,12 +129,9 @@ public class StaffView {
         System.out.println("3. Tim theo loai hinh lam viec");
         System.out.println("4. Hien thi tat ca nhan vien");
         System.out.println("5. Tro ve thao tac");
-        int choose = Integer.parseInt(scanner.nextLine());
-        if (choose <= 0 || choose > 5) {
-            searchStaff();
-        }
+        String choose = scanner.nextLine();
         switch (choose) {
-            case 1:
+            case "1":
                 System.out.println("Nhap ten can tim kiem: ");
                 String name = scanner.nextLine();
                 if (staffController.searchStaffByName(name).size() == 0) {
@@ -144,7 +141,7 @@ public class StaffView {
                 }
                 searchStaff();
                 break;
-            case 2:
+            case "2":
                 int choosestatus = 0;
                 do {
                     System.out.println("1. Nhan vien dang lam viec");
@@ -162,7 +159,7 @@ public class StaffView {
 
                 searchStaff();
                 break;
-            case 3:
+            case "3":
                 System.out.println("Nhap hinh thuc lam viec");
                 String workingType;
                 boolean checkWorkingType;
@@ -178,12 +175,15 @@ public class StaffView {
                 System.out.println(staffController.searchStaffByWorkingType(workingType));
                 searchStaff();
                 break;
-            case 4:
+            case "4":
                 System.out.println(staffController.showStaffList());
                 searchStaff();
                 break;
-            case 5:
+            case "5":
                 operation();
+                break;
+            default:
+                searchStaff();
                 break;
         }
 
@@ -348,42 +348,78 @@ public class StaffView {
 
     public int fillDayOfWork() {
         int workingDayInMonth = 0;
-            System.out.println("Nhap so ngay lam viec trong thang");
+        System.out.println("Nhap so ngay lam viec");
+        try {
             workingDayInMonth = Integer.parseInt(scanner.nextLine());
-            if (workingDayInMonth<=0||workingDayInMonth>27){
-                fillDayOfWork();
+            if (workingDayInMonth > 0 && workingDayInMonth <= 27) {
+                return workingDayInMonth;
             }
-        return workingDayInMonth;
-
+        } catch (NumberFormatException e) {
+            System.out.println("so ngay lam viec >0 va <27");
+            fillDayOfWork();
+        }
+        return fillDayOfWork();
     }
-
-    public Map<Integer, Integer> fillDayOff() {
-        Map<Integer, Integer> staffOff = new TreeMap<>();
-        while (true) {
-            System.out.println("Nhap 'quit' de thoat hoac ky tu bat ky de tiep tuc");
-            String back = scanner.nextLine();
-            if (back.equalsIgnoreCase("quit")) {
-                break;
-            }
-            System.out.println("Nhap id nhan vien co ngay nghi");
+    public void changeDayOff(){
+        System.out.println("Nhap vao id can sua");
+        try {
             int id = Integer.parseInt(scanner.nextLine());
             if (id <= 0 || id > staffList.get(staffList.size() - 1).getId()) {
                 System.out.println("Id khong ton tai");
-                fillDayOff();
+                changeDayOff();
             }
             for (int i = 0; i < staffList.size(); i++) {
                 if (id == staffList.get(i).getId()) {
                     if (staffList.get(i).isStatus() == false) {
                         System.out.println("Nhan vien da nghi viec");
-                        editStaffById();
+                        changeDayOff();
                     }
                 }
             }
-            System.out.println("Nhap so ngay nghi trong thang ");
-            int dayoff = Integer.parseInt(scanner.nextLine());
-            staffOff.put(id, dayoff);
+            System.out.println("Nhap so ngay nghi");
+            int dayOff = Integer.parseInt(scanner.nextLine());
+            staffController.changeDayOffById(id,dayOff);
+        }catch (NumberFormatException e){
+
         }
-        return staffOff;
+
+    }
+
+    public Map<Integer, Integer> fillDayOff() {
+        Map<Integer, Integer> staffOff = new TreeMap<>();
+        System.out.println("Nhap 'quit' de thoat hoac ky tu bat ky de dien so ngay nghi nhan vien neu co");
+            String back = scanner.nextLine();
+            if (back.equalsIgnoreCase("quit")) {
+                payroll();
+            }
+        System.out.println("Nhap id nhan vien co ngay nghi");
+            try {
+                int id = Integer.parseInt(scanner.nextLine());
+                if (id <= 0 || id > staffList.get(staffList.size() - 1).getId()) {
+                    System.out.println("Id khong ton tai");
+                    fillDayOff();
+                }
+                for (int i = 0; i < staffList.size(); i++) {
+                    if (id == staffList.get(i).getId()) {
+                        if (staffList.get(i).isStatus() == false) {
+                            System.out.println("Nhan vien da nghi viec");
+                            fillDayOff();
+                        }
+                    }
+                }
+                System.out.println("Nhap so ngay nghi trong thang ");
+                int dayoff = Integer.parseInt(scanner.nextLine());
+                if (dayoff>0&&dayoff<=7){
+                 staffOff.put(id, dayoff);
+                 return staffOff;
+                }else {
+                    System.out.println("Thong tin nhap vao k dung, nhap lai hoac thoat");
+                }
+            }catch (NumberFormatException e){
+                System.out.println("Thong tin nhap vao k dung, nhap lai hoac thoat");
+                fillDayOff();
+            }
+        return fillDayOff();
     }
 
     public void showSalary(int workingDayInMonth, Map<Integer, Integer> staffOff) {
@@ -399,46 +435,60 @@ public class StaffView {
 
         System.out.println("Chon thao tac");
         System.out.println("1. Tinh cong" +
-                "\n2. Xem bang luong ca nhan" +
-                "\n3. Xem toan bo bang luong" +
-                "\n4. Menu");
-        int choose = Integer.parseInt(scanner.nextLine());
-        if (choose < 1 || choose > 4) {
-            payroll();
-        } else {
+                "\n2. Thay doi so ngay nghi cua nhan vien" +
+                "\n3. Xem bang luong ca nhan" +
+                "\n4. Xem toan bo bang luong" +
+                "\n5. Menu");
+        String choose;
+        boolean checkChoose;
+        while (true){
+            choose = scanner.nextLine();
+            checkChoose = Pattern.matches("[1-5]",choose);
+            if (checkChoose){
+                break;
+            }else {
+                payroll();
+            }
+        }
             switch (choose) {
-                case 1:
+                case "1":
                     if (Menu.checkLogin(roleList) >= 2) {
-                       int workingDayInMonth = fillDayOfWork();
-                        Map<Integer, Integer> staffOff = fillDayOff();
+//                       int workingDayInMonth = fillDayOfWork();
+//                        Map<Integer, Integer> staffOff = fillDayOff();
 //                        staffServiceIMPL.payroll(workingDayInMonth,staffOff);
                         staffController.takeSalary(fillDayOfWork(),fillDayOff());
                     } else {
-                        System.out.println("Khong co quyen truy cap");
+                        System.err.println("Khong co quyen truy cap");
                         payroll();
                     }
                     payroll();
                     break;
-                case 2:
+                case "2":
+                    changeDayOff();
+                    payroll();
+                    break;
+                case "3":
                     staffController.getSalaryById(LoginView.user.get(0).getId(), staffList);
                     payroll();
                     break;
-                case 3:
+                case "4":
                     if (Menu.checkLogin(roleList) == 3) {
                         for (int i = 0; i < staffList.size(); i++) {
                             System.out.println(staffList.get(i).printSalary());
+                            payroll();
                         }
                     } else {
-                        System.out.println("Khong co quyen truy cap");
+                        System.err.println("Khong co quyen truy cap");
                         payroll();
                     }
-                    payroll();
                     break;
-                case 4:
+                case "5":
                     new Menu();
                     break;
+                default:
+                    payroll();
+                    break;
             }
-        }
     }
 
     public Set<Role> checkRoleSet(String newRole) {

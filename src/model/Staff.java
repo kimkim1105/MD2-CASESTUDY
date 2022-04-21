@@ -141,28 +141,31 @@ public class Staff implements Serializable {
 
     @Override
     public String toString() {
-        return "Staff{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", status=" + status +
-                ", workingType='" + workingType + '\'' +
-                ", roleSet=" + roleSet +
-                "}\n";
+//        return "Staff{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", username='" + username + '\'' +
+//                ", password='" + password + '\'' +
+//                ", status=" + status +
+//                ", workingType='" + workingType + '\'' +
+//                ", roleSet=" + roleSet+
+//                "}\n";
+        if (isStatus()) {
+            return String.format("\t|%-3s | %-15s | %-15s | %-15s | %-15s | %-10s | %-30s |%n", id, name, username, password,"Dang lam viec",workingType,roleSet);
+        }return String.format("\t|%-3s | %-15s | %-15s | %-15s | %-15s | %-10s | %-30s |%n", id, name, username, password,"Nghi viec",workingType,roleSet);
     }
 public String printSalary(){
-    String salary = "id=" + id +
-                ", name='" + name + '\'' +
-                ", status=" + status +
-                ", workingType='" + workingType + '\'' +
-                ", roleSet=" + roleSet +
-                ", DaysOfWork="+daysOfWorking+
-                ", DayOff="+dayOff+
-                ", basicSalary="+basicSalary+
-                ", totalSalary="+totalSalary+
-                ", wokingDayInMonth="+workingDayInMonth;
-        return salary;
+//    String salary = "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", workingType='" + workingType + '\'' +
+//                ", roleSet=" + roleSet +
+//                ", DaysOfWork="+daysOfWorking+
+//                ", DayOff="+dayOff+
+//                ", basicSalary="+basicSalary+
+//                ", totalSalary="+totalSalary+
+//                ", wokingDayInMonth="+workingDayInMonth;
+//        return salary;
+    return String.format("\t|%-3s | %-15s | %-10s | %-30s |%-3s |%-3s |%-10s |%-10s |%-3s |%n", id, name, workingType,roleSet,daysOfWorking,dayOff,basicSalary,totalSalary,workingDayInMonth);
 }
 
     //        if (isStatus()) {
