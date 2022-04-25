@@ -79,8 +79,16 @@ public class StaffController {
     }
     public void changeDayOffById(int id, int dayOff){
         staffServiceIMPL.changDayOffById(id,dayOff);
+    }public void changePassword(int id, String password){
+        staffServiceIMPL.changePassword(id,password);
     }
     public void getSalaryById(int id, List<Staff> staffList){
         staffServiceIMPL.getSalaryById(id,staffList);
+    }
+    public void deleteById(int id){
+        staffServiceIMPL.deleteById(id);
+    }
+    public List<Staff> searchRetireStaff (String name){
+       return staffServiceIMPL.searchRetireByName(name);
     }
 }

@@ -27,6 +27,9 @@ public class Main {
             case "2":
                 new LoginView();
                 break;
+            default:
+                new Main();
+                break;
 //            case 3:
 //                new RoleView().showListRole();
 //                break;

@@ -54,7 +54,7 @@ public class RegisterView {
         boolean checkRole;
         while (true){
             role = scanner.nextLine();
-            checkRole = Pattern.matches("admin|manager",role);
+            checkRole = Pattern.matches("admin|manager",role.toLowerCase());
             if (!checkRole){
                 System.out.println("vi tri lam viec sai");
             }else {
@@ -62,7 +62,7 @@ public class RegisterView {
             }
         }
         Set<String> stringSetRole = new HashSet<>();
-        stringSetRole.add(role);
+        stringSetRole.add(role.toLowerCase());
         SignUpDTO signUpDTO = new SignUpDTO(name,username,password,stringSetRole);
         staffController.register(signUpDTO);
         System.out.println("Nhan vien moi dang ky"+staffServiceIMPL.staffList.get(staffServiceIMPL.staffList.size()-1));

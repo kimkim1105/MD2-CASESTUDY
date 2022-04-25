@@ -151,8 +151,8 @@ public class Staff implements Serializable {
 //                ", roleSet=" + roleSet+
 //                "}\n";
         if (isStatus()) {
-            return String.format("\t|%-3s | %-15s | %-15s | %-15s | %-15s | %-10s | %-30s |%n", id, name, username, password,"Dang lam viec",workingType,roleSet);
-        }return String.format("\t|%-3s | %-15s | %-15s | %-15s | %-15s | %-10s | %-30s |%n", id, name, username, password,"Nghi viec",workingType,roleSet);
+            return String.format("\t|%-3s | %-15s | %-15s | %-15s | %-15s | %-10s | %-15s |%n", id, name, username, password,"Dang lam viec",workingType,roleSet);
+        }return String.format("\t|%-3s | %-15s | %-15s | %-15s | %-15s | %-10s | %-15s |%n", id, name, username, password,"Nghi viec",workingType,roleSet);
     }
 public String printSalary(){
 //    String salary = "id=" + id +
@@ -165,7 +165,7 @@ public String printSalary(){
 //                ", totalSalary="+totalSalary+
 //                ", wokingDayInMonth="+workingDayInMonth;
 //        return salary;
-    return String.format("\t|%-3s | %-15s | %-10s | %-30s |%-3s |%-3s |%-10s |%-10s |%-3s |%n", id, name, workingType,roleSet,daysOfWorking,dayOff,basicSalary,totalSalary,workingDayInMonth);
+    return String.format("\t|%-3s | %-15s | %-10s | %-15s |%-3s |%-3s |%-10s |%-10s |%-3s |%n", id, name, workingType,roleSet,daysOfWorking,dayOff,basicSalary,totalSalary,workingDayInMonth);
 }
 
     //        if (isStatus()) {

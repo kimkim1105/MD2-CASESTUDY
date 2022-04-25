@@ -16,14 +16,15 @@ public class Menu {
         List<Role> roleList = new ArrayList<>(LoginView.user.get(0).getRoleSet());
 //        checkLogin(roleList);
         System.out.println("==========Menu==========");
-        System.out.println("1. Thao tac voi nhan vien");
-        System.out.println("2. Hien thi danh sach nhan viên");
+        System.out.println("1. Thao tác với nhân viên");
+        System.out.println("2. Hiển thị danh sách nhân viên");
         System.out.println("3. Thông tin tài khoản");
-        System.out.println("4. Công - lương");
-        System.out.println("5. Đăng xuất");
-        int chooseMenu = Integer.parseInt(scanner.nextLine());
+        System.out.println("4. Thay đổi mật khẩu");
+        System.out.println("5. Công - lương");
+        System.out.println("6. Đăng xuất");
+        String chooseMenu = scanner.nextLine();
         switch (chooseMenu) {
-            case 1:
+            case "1":
                 if (checkLogin(roleList) > 1) {
                     staffView.operation();
                     break;
@@ -31,7 +32,7 @@ public class Menu {
                     System.out.println("Khong co quyen truy cap");
                     new Menu();
                 }
-            case 2:
+            case "2":
                 if (checkLogin(roleList) > 1) {
                     staffView.searchStaff();
                     break;
@@ -40,14 +41,20 @@ public class Menu {
                     new Menu();
                 }
                 break;
-            case 3:
+            case "3":
                 staffView.showUserInfo();
                 break;
-            case 4:
+            case "4":
+                staffView.changPassword();
+                break;
+            case "5":
                 staffView.payroll();
                 break;
-            case 5:
+            case "6":
                 new Main();
+                break;
+            default:
+                new Menu();
                 break;
         }
     }

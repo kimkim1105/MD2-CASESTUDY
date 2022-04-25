@@ -26,7 +26,7 @@ public class RoleServiceIMPL implements IRoleService{
     public void save() {
         new ConfigReadAndWriteFile<Role>().writeToFile(path,roleList);
     }
-    public void add(Role role){
+    public void add(Role role)  {
         roleList.add(role);
         save();
     }

@@ -14,7 +14,9 @@ import java.util.Set;
 
 public class StaffServiceIMPL implements IstaffService {
     public static String path = "D:\\java\\GIT\\MODULE 2\\HUMAN - Copy\\src\\data\\staffList.csv";
+    public static String path2 = "D:\\java\\GIT\\MODULE 2\\HUMAN - Copy\\src\\data\\retire.csv";
     public static List<Staff> staffList = new  ConfigReadAndWriteFile<Staff>().readFromFile(path);
+    public static List<Staff> retireList = new  ConfigReadAndWriteFile<Staff>().readFromFile(path2);
 
     @Override
     public List<Staff> findAll() {
@@ -33,7 +35,7 @@ public class StaffServiceIMPL implements IstaffService {
     public List<Staff> searchByName(String name) {
         List<Staff> listSearchByName = new ArrayList<>();
         for (int i = 0; i < staffList.size(); i++) {
-            if (staffList.get(i).getName().contains(name)){
+            if (staffList.get(i).getName().contains(name.toLowerCase())){
                 listSearchByName.add(staffList.get(i));
             }
         }
@@ -46,6 +48,27 @@ public class StaffServiceIMPL implements IstaffService {
             }
         }
         return null;
+    }
+    public void deleteById(int id) {
+        for (int i = 0; i < staffList.size(); i++) {
+            if (staffList.get(i).getId()==id){
+                retireList.add(staffList.get(i));
+                System.out.println("Ban vua xoa nhan vien "+staffList.get(i));
+                staffList.remove(staffList.get(i));
+            }
+        }
+        save();
+        new ConfigReadAndWriteFile<Staff>().writeToFile(path2,retireList);
+    }
+    public List<Staff> searchRetireByName(String name) {
+        List<Staff> listSearchByName = new ArrayList<>();
+        for (int i = 0; i < retireList.size(); i++) {
+            if (retireList.get(i).getName().contains(name)){
+                listSearchByName.add(retireList.get(i));
+            }
+        }
+        new ConfigReadAndWriteFile<Staff>().writeToFile(path2,retireList);
+        return listSearchByName;
     }
     public boolean searchByUsername(String username) {
         for (int i = 0; i < staffList.size(); i++) {
@@ -160,6 +183,25 @@ public class StaffServiceIMPL implements IstaffService {
         }
         save();
     }
+    public void changePassword(int id, String pasword){
+        for (int i = 0; i < staffList.size(); i++) {
+            if (id == staffList.get(i).getId()){
+                staffList.get(i).setPassword(pasword);
+                System.out.println("Ban vua thay doi password "+staffList.get(i));
+            }
+        }
+        save();
+    }
+    public boolean checkPassword(int id, String old){
+        for (int i = 0; i < staffList.size(); i++) {
+            if (id==staffList.get(i).getId()){
+                if (staffList.get(i).getPassword().equals(old)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     @Override
     public boolean existedByUsername(String username) {
@@ -211,11 +253,13 @@ public class StaffServiceIMPL implements IstaffService {
                         staffList.get(i).setBasicSalary(10);
                         staffList.get(i).setTotalSalary((staffList.get(i).getBasicSalary()/staffList.get(i).getWorkingDayInMonth())*staffList.get(i).getDaysOfWorking());
                     }
-                    if (roleList.get(0).getName()==RoleName.ADMIN){
+
+                    else if (roleList.get(0).getName()==RoleName.ADMIN){
                         staffList.get(i).setBasicSalary(13);
                         staffList.get(i).setTotalSalary((staffList.get(i).getBasicSalary()/staffList.get(i).getWorkingDayInMonth())*staffList.get(i).getDaysOfWorking());
                     }
-                    if (roleList.get(0).getName()==RoleName.MANAGER){
+//                    (roleList.get(0).getName()==RoleName.MANAGER)
+                    else {
                         staffList.get(i).setBasicSalary(23);
                         staffList.get(i).setTotalSalary((staffList.get(i).getBasicSalary()/staffList.get(i).getWorkingDayInMonth())*staffList.get(i).getDaysOfWorking());
                     }
@@ -223,6 +267,9 @@ public class StaffServiceIMPL implements IstaffService {
                     staffList.get(i).setBasicSalary(5);
                     staffList.get(i).setTotalSalary((staffList.get(i).getBasicSalary()/staffList.get(i).getWorkingDayInMonth())*staffList.get(i).getDaysOfWorking());
                 }
+            }else {
+                staffList.get(i).setBasicSalary(0);
+                staffList.get(i).setTotalSalary(0);
             }
         }
         save();
